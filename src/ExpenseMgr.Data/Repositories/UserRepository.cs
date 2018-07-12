@@ -12,6 +12,7 @@ namespace ExpenseMgr.Data.Repositories
     {
         Task<User> CreateUser(User user);
         Task<User> GetUser(string key);
+        Task<IEnumerable<User>> Getusers();
         Task<IEnumerable<User>> Search(Func<User, bool> searchQuery);
     }
 
@@ -32,6 +33,11 @@ namespace ExpenseMgr.Data.Repositories
         public async Task<User> GetUser(string key)
         {
             return await GetAsync(key);
+        }
+
+        public async Task<IEnumerable<User>> Getusers()
+        {
+            return await GetAllAsync();
         }
 
         public async Task<IEnumerable<User>> Search(Func<User, bool> searchQuery)
