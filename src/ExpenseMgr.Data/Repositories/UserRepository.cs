@@ -11,7 +11,8 @@ namespace ExpenseMgr.Data.Repositories
     public interface IUserRepository
     {
         Task<User> CreateUser(User user);
-        Task<User> GetUser(string key);
+        Task<User> GetUser(string emailOrId);
+        Task<User> GetUser(Guid key);
         Task<IEnumerable<User>> Getusers();
         Task<IEnumerable<User>> Search(Func<User, bool> searchQuery);
     }
@@ -30,9 +31,15 @@ namespace ExpenseMgr.Data.Repositories
             return await AddAsync(user);
         }
 
-        public async Task<User> GetUser(string key)
+        public async Task<User> GetUser(Guid key)
         {
             return await GetAsync(key);
+        }
+
+        public async Task<User> GetUser(string emailOrId)
+        {
+            return (await FilterAsync(u => u.Email.Equals(emailOrId, StringComparison.OrdinalIgnoreCase) ||
+                                     u.UserId.ToString().Equals(emailOrId))).FirstOrDefault();
         }
 
         public async Task<IEnumerable<User>> Getusers()

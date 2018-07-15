@@ -21,7 +21,7 @@ namespace ExpenseMgr.Data.Repositories
         {
             using (var db = new ExpenseMgrContext())
             {
-                return await db.Set<T>().Where(criteria).AsQueryable().ToListAsync();
+                return await Task.FromResult(db.Set<T>().Where(criteria).ToList());
             };
 
         }

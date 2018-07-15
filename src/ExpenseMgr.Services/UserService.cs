@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using ExpenseMgr.Data.Repositories;
 using ExpenseMgr.Domain;
@@ -29,11 +30,25 @@ namespace ExpenseMgr.Services
             }
         }
 
+        public async Task<User> GetUserByEmail(string email)
+        {
+            try
+            {
+                var user = (await userRepository.Search(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase)))
+                           .FirstOrDefault();
+                return user;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public async Task<User> GetUser(string userId)
         {
             try
             {
-                return await GetUser(userId);
+                return await userRepository.GetUser(userId);
             }
             catch (Exception)
             {

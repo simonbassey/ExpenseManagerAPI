@@ -10,6 +10,7 @@ namespace ExpenseMgr.Services.Abstractions
     {
         Task<User> CreateUserAsync(User user);
         Task<User> GetUser(string userId);
+        Task<User> GetUserByEmail(string email);
         Task<IEnumerable<User>> GetUsers();
         Task<IEnumerable<User>> GetUsers(Func<User, bool> criteria);
     }
