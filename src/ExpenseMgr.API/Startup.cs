@@ -11,6 +11,7 @@ using ExpenseMgr.Services.Abstractions;
 using ExpenseMgr.Services;
 using ExpenseMgr.Data.Repositories;
 using ExpenseMgr.Services.Helpers;
+using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseMgr.API
 {
@@ -57,6 +58,8 @@ namespace ExpenseMgr.API
 
             app.UseCors("*");
             app.UseMvc();
+            var context = ((ExpenseMgrContext)app.ApplicationServices.GetService(typeof(ExpenseMgrContext)));
+            context.Database.Migrate();
         }
     }
 }
