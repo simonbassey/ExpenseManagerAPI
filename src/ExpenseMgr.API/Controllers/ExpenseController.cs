@@ -86,7 +86,7 @@ namespace ExpenseMgr.API.Controllers
             try
             {
                 var user = await userService.GetUserByEmail(email);
-                var expenseRecord = await expenseService.GetExpenses(user?.Email);
+                var expenseRecord = await expenseService.GetExpenses(user?.UserId.ToString());
                 return Ok(expenseRecord.ToList());
             }
             catch (Exception exception)
