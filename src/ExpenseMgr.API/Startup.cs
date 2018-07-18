@@ -29,7 +29,7 @@ namespace ExpenseMgr.API
         {
 
             services.AddDbContext<ExpenseMgrContext>();
-            services.AddEntityFrameworkSqlite();
+            services.AddEntityFrameworkMySql();
 
             services.AddCors(options => options.AddPolicy("*", corsPolicyBuilder => corsPolicyBuilder
                                   .AllowAnyHeader()
@@ -49,7 +49,7 @@ namespace ExpenseMgr.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ExpenseMgrContext context)
         {
             if (env.IsDevelopment())
             {
@@ -58,7 +58,7 @@ namespace ExpenseMgr.API
 
             app.UseCors("*");
             app.UseMvc();
-            var context = ((ExpenseMgrContext)app.ApplicationServices.GetService(typeof(ExpenseMgrContext)));
+            StaticServiceResolver.Register(app.ApplicationServices);
             context.Database.Migrate();
         }
     }
