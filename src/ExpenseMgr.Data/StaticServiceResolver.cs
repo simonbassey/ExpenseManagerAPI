@@ -17,9 +17,10 @@ namespace ExpenseMgr.Data
             _serviceProvider = provider;
         }
 
-        public static StaticServiceResolver Create(IServiceProvider provider)
+        public static StaticServiceResolver Register(IServiceProvider provider)
         {
-            return Instance ?? new StaticServiceResolver(provider);
+            Instance = Instance ?? new StaticServiceResolver(provider);
+            return Instance;
         }
 
         public static T Resolve<T>()

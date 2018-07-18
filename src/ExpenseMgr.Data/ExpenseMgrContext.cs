@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ExpenseMrg.Domain;
 using ExpenseMgr.Domain;
+using Microsoft.Extensions.Configuration;
 namespace ExpenseMgr.Data
 {
     public class ExpenseMgrContext : DbContext
@@ -19,11 +20,22 @@ namespace ExpenseMgr.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("Data Source=ExpenseMgr.db");
+            optionsBuilder.UseMySql(GetConnectionString());
             base.OnConfiguring(optionsBuilder);
         }
 
         public virtual DbSet<Expense> Expenses { get; set; }
         public virtual DbSet<User> Users { get; set; }
+
+
+
+        #region privates
+        private string GetConnectionString()
+        {
+            IConfiguration configuration = StaticServiceResolver.Resolve<IConfiguration>();
+            return configuration.GetConnectionString("trackyaexpenseDbConnection");
+        }
+        #endregion
+
     }
 }
